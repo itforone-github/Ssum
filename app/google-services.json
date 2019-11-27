@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "800006699440",
+    "firebase_url": "https://ddrreeaamm-7927f.firebaseio.com",
+    "project_id": "ddrreeaamm-7927f",
+    "storage_bucket": "ddrreeaamm-7927f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:800006699440:android:c86025c054976792",
+        "android_client_info": {
+          "package_name": "kr.foryou.ssum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "800006699440-vcb40goblga23ugt5fl7ghv04gveccjb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kr.foryou.ssum",
+            "certificate_hash": "a1b2c33b0919e11f8d5a82bf100130064ed0ae96"
+          }
+        },
+        {
+          "client_id": "800006699440-8tfl5defiiaemrrse2b9ra5rqko8uk7p.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "800006699440-o1mcasf1vp9tevp1defiq3ninh3o9bcp.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "800006699440-8is1uvn8ft8h1llu71p8b4sluocq7inq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDU3poXqI8pg-GbKMKfpbslqgzuCGn5II8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "800006699440-8tfl5defiiaemrrse2b9ra5rqko8uk7p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "800006699440-1s1fgsv0dht4skrm6v1dnesi394k3atf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dreamforone.moyeopet"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+
+  ],
+  "configuration_version": "1"
+}

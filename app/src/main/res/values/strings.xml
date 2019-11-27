@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">썸</string>
+    <string name="url">https://www.xn--c04b.com:44536/index.php</string>
+    <string name="url2">https://www.xn--c04b.com:44536/bbs/summer.php?bo_table=best</string>
+    <string name="domain">https://www.xn--c04b.com:44536/</string>
+    <string name="kakao_app_key">cb05edc9dacea2e0e8ff2f209c1db68b</string>
+    <string name="facebook_app_id">671614379885464</string>
+    <string name="fb_login_protocol_scheme">fb[671614379885464]</string>
+</resources>
