@@ -1,6 +1,7 @@
 package kr.foryou.ssum;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -17,9 +18,7 @@ import android.os.Message;
 import android.os.Parcelable;
 import android.os.StrictMode;
 import android.provider.MediaStore;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +41,10 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import com.buzzvil.buzzad.analytics.BATracker;
 import com.darsh.multipleimageselect.activities.AlbumSelectActivity;
 import com.darsh.multipleimageselect.helpers.Constants;
@@ -55,7 +58,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
 import java.lang.reflect.Method;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -71,7 +73,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import util.BackPressCloseHandler;
 import util.Common;
-import util.NetworkCheck;
 import util.RetrofitItem;
 import util.RetrofitPushService;
 import util.retrofit.RetrofitService;
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout webLayout;
     RelativeLayout networkLayout;
     public static WebView webView;
-    NetworkCheck netCheck;
+
     Button replayBtn;
     ProgressBar loadingProgress;
     public static boolean execBoolean = true;
@@ -222,7 +223,9 @@ public class MainActivity extends AppCompatActivity {
         setAutoLogAppEventsEnabled(true);
         logger = AppEventsLogger.newLogger(this);
         logger.logEvent(AppEventsConstants.EVENT_NAME_ACTIVATED_APP);
-        FacebookSdk.sdkInitialize(getApplicationContext()); AppEventsLogger.activateApp(this);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+
+
 
         logAddToCartEvent(EVENT_PARAM_CONTENT,AppEventsConstants.EVENT_PARAM_CONTENT_ID,AppEventsConstants.EVENT_PARAM_CONTENT_TYPE,AppEventsConstants.EVENT_PARAM_CURRENCY,0);
         logSearchEvent(EVENT_PARAM_CONTENT,AppEventsConstants.EVENT_PARAM_CONTENT_ID,AppEventsConstants.EVENT_PARAM_CONTENT_TYPE,AppEventsConstants.EVENT_PARAM_SEARCH_STRING,Boolean.parseBoolean(AppEventsConstants.EVENT_PARAM_SUCCESS));
@@ -332,9 +335,9 @@ public class MainActivity extends AppCompatActivity {
     }
     //레이아웃 설정
     public void setLayout() {
-        networkLayout = (RelativeLayout) findViewById(R.id.networkLayout);//네트워크 연결이 끊겼을 때 레이아웃 가져오기
+
         webLayout = (LinearLayout) findViewById(R.id.webLayout);//웹뷰 레이아웃 가져오기
-        loadingProgress = (ProgressBar)findViewById(R.id.loadingProgress);
+
         mContainer=(FrameLayout)findViewById(R.id.mContainer);
 
         webView = (WebView) findViewById(R.id.webView);//웹뷰 가져오기
@@ -401,24 +404,10 @@ public class MainActivity extends AppCompatActivity {
         webView.addJavascriptInterface(new WebJavascriptEvent(), "Android");
         webView.addJavascriptInterface(new WebJavascriptEvent(),"android");
 
-        //네트워크 체킹을 할 때 쓰임
-        netCheck = new NetworkCheck(this, this);
-        netCheck.setNetworkLayout(networkLayout);
-        netCheck.setWebLayout(webLayout);
-        netCheck.networkCheck();
-        //뒤로가기 버튼을 눌렀을 때 클래스로 제어함
+
         backPressCloseHandler = new BackPressCloseHandler(this);
 
-        replayBtn=(Button)findViewById(R.id.replayBtn);
-        replayBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                netCheck.networkCheck();
-            }
-        });
-        if (Build.VERSION.SDK_INT >= 21) {
-            setting.setMixedContentMode( WebSettings.MIXED_CONTENT_ALWAYS_ALLOW );
-        }
+
     }
 
     WebChromeClient chrome;
@@ -591,7 +580,7 @@ public class MainActivity extends AppCompatActivity {
             //페이지 로딩중일 때 (마시멜로) 6.0 이후에는 쓰지 않음
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                loadingProgress.setVisibility(View.VISIBLE);
+
                 Log.d("url",url);
                 String host=Uri.parse(url).getHost();
                 if( url.startsWith("http://") || url.startsWith("https://") ) {
@@ -611,21 +600,21 @@ public class MainActivity extends AppCompatActivity {
                         return false;
                     }
                     if(url.startsWith("https://open")){
-                        loadingProgress.setVisibility(View.GONE);
+
                         Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(url));
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY|Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
                         startActivity(intent);
                         return true;
                     }else if(url.startsWith("http://pf.kakao.com/")){
-                        loadingProgress.setVisibility(View.GONE);
+
                         Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(url));
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
                         startActivity(intent);
                         return true;
                     }else if(url.startsWith("https://open")){
-                        loadingProgress.setVisibility(View.GONE);
+
                         Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(url));
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY|Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
@@ -635,7 +624,7 @@ public class MainActivity extends AppCompatActivity {
                         if (host.equals("www.xn--c04b.com")) {
                             return false;
                         }else{
-                            loadingProgress.setVisibility(View.GONE);
+
                             Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(url));
                             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -649,7 +638,7 @@ public class MainActivity extends AppCompatActivity {
                 }else if (url.startsWith("tel")) {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
                     intent.setData(Uri.parse(url));
-                    loadingProgress.setVisibility(View.GONE);
+
                     try {
                         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                             // TODO: Consider calling
@@ -672,7 +661,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }else if(url.startsWith("market://")){
                     try {
-                        loadingProgress.setVisibility(View.GONE);
+
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=kr.foryou.ssum"));
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                         startActivity(intent);
@@ -681,7 +670,7 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }else if (url.startsWith("intent:")) {
-                    loadingProgress.setVisibility(View.GONE);
+
                     try {
                         Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
                         Intent existPackage = getPackageManager().getLaunchIntentForPackage(intent.getPackage());
@@ -713,7 +702,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 //webLayout.setRefreshing(false);
-                loadingProgress.setVisibility(View.GONE);
+
 
                 Log.d("url",url);
                 Log.d("ss_mb_id", Common.getPref(getApplicationContext(),"ss_mb_id",""));
@@ -834,6 +823,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         webView.resumeTimers();
+        AppEventsLogger.activateApp(getApplicationContext(),"썸");
         /*if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             CookieSyncManager.getInstance().startSync();
         }*/
@@ -866,7 +856,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        netCheck.stopReciver();
+
        // unregisterReceiver(receiver);
 
 
@@ -957,6 +947,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 

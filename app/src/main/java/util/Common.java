@@ -10,10 +10,13 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.support.annotation.RequiresApi;
+
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,19 +37,8 @@ public class Common {
     }*/
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static String getMyDeviceId(Activity act) {
-        TelephonyManager manager = (TelephonyManager) act.getSystemService(Context.TELEPHONY_SERVICE);
-
-        if (act.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    Activity#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for Activity#requestPermissions for more details.
-
-        }
-        return manager.getDeviceId();
+        String android_id = Settings.Secure.getString(act.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        return android_id;
     }
     public static void savePref(Context context, String key, String value){
         SharedPreferences pref=context.getSharedPreferences(PREF, Activity.MODE_PRIVATE);
